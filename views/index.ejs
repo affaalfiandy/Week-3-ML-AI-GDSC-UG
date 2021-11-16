@@ -1,0 +1,134 @@
+<%- include('includes/head.ejs') %>
+
+  <body id="kt_body" style="background-image: url(media/bg/bg-1.jpg)" class="
+      quick-panel-right
+      demo-panel-right
+      offcanvas-right
+      header-fixed
+      subheader-enabled
+      page-loading
+    ">
+    <%- include('includes/navbar.ejs') %>
+
+      <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+          <div class="
+              container
+              d-flex
+              align-items-center
+              justify-content-between
+              flex-wrap flex-sm-nowrap
+            ">
+
+            <% if (forUser) { %>
+
+              <div class="d-flex align-items-center flex-wrap mr-1">
+                <div class="d-flex flex-column">
+                  <h2 class="text-white font-weight-bold my-2 mr-5">
+                    Here are you recommended movies!
+                  </h2>
+                </div>
+              </div>
+              <% } else {%>
+
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                  <div class="d-flex flex-column">
+                    <h2 class="text-white font-weight-bold my-2 mr-5">
+                      List of movies!
+                    </h2>
+                  </div>
+                </div>
+                <% } %>
+
+          </div>
+        </div>
+      </div>
+
+      <% if (forUser) { %>
+
+        <div class="d-flex flex-column-fluid">
+          <div class="container">
+            <div class="row">
+
+              <% recommendations.forEach(recomend=> { %>
+                <div class="d-flex flex-column-fluid">
+                  <div class="container">
+                    <div class="row">
+
+                      <div class="col-lg-3 col-md-3 col-sm-6 mb-5">
+                        <div class="card" style="width: 18rem">
+                          <img src="<%= recomend.poster_url %>" class="card-img-top" alt="" height="300" />
+                          <div class="card-content">
+                            <div class="card-title mt-5 text-center">
+                              <h3 class="card-label">
+                                <%= recomend.movie_title %>
+                              </h3>
+                              <div class="card-body" style="padding: 0">
+                                <p class="card-text">
+                                  <%= recomend.genre %>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+
+                  <% } else { %>
+                    <div class="d-flex flex-column-fluid">
+                      <div class="container">
+                        <div class="row">
+                          <% movies.forEach(movie=> { %>
+                            <div class="col-lg-3 col-md-3 col-sm-6 mb-5">
+                              <div class="card" style="width: 18rem">
+                                <img src="<%= movie.poster_url %>" class="card-img-top" alt="" height="300" />
+                                <div class="card-content">
+                                  <div class="card-title mt-5 text-center">
+                                    <h3 class="card-label">
+                                      <%= movie.movie_title %>
+                                    </h3>
+                                    <div class="card-body" style="padding: 0">
+                                      <p class="card-text">
+                                        <%= movie.genre %>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <% }); %>
+
+                              <div class="container">
+                                <div class="row text-center py-5" style="margin-bottom: 50px">
+                                  <div class="col-md-6">
+                                    <form action="/get-prev" method="GET">
+                                      <input name="pg_end" type="hidden" value="<%= pg_start %>" />
+                                      <input name="pg_start" type="hidden" value="<%= pg_start %>" />
+                                      <button class="btn btn-info" type="submit">Prev</button>
+                                    </form>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <form action="/get-next" method="GET">
+                                      <input name="pg_end" type="hidden" value="<%= pg_end %>" />
+                                      <input name="pg_start" type="hidden" value="<%= pg_end %>" />
+                                      <button class="btn btn-primary" type="submit">Next</button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                              <% } %>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <script src="plugins/global/plugins.bundle.js"></script>
+        <script src="js/scripts.bundle.js"></script>
+  </body>
+
+  </html>
